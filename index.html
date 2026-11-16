@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
     <title>RA - Computação Gráfica</title>
 
-    <!-- Versões compatíveis testadas para navegador móvel -->
     <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js@3.4.5/aframe/build/aframe-ar.js"></script>
 
@@ -16,7 +15,6 @@
         font-family: sans-serif;
       }
 
-      /* Painel superior com instruções */
       #hud-top {
         position: fixed;
         top: 12px;
@@ -34,7 +32,6 @@
         max-width: 360px;
       }
 
-      /* Botões de transformação na parte inferior */
       #hud-bottom {
         position: fixed;
         bottom: 18px;
@@ -76,7 +73,6 @@
       Aponte a câmera para o marcador <strong>HIRO</strong> na tela do PC
     </div>
 
-    <!-- Controles interativos para a apresentação -->
     <div id="hud-bottom">
       <button onclick="alterarEscala(0.2)">+ Escala</button>
       <button onclick="alterarEscala(-0.2)">- Escala</button>
@@ -84,20 +80,19 @@
       <button class="secondary" onclick="trocarObjeto()">Trocar Sólido</button>
     </div>
 
-    <!-- Cena AR.js configurada para câmera traseira do celular -->
+    <!-- Renderer corrigido sem logarithmicDepthBuffer -->
     <a-scene
       vr-mode-ui="enabled: false"
       embedded
-      renderer="logarithmicDepthBuffer: true; precision: medium;"
+      renderer="antialias: true; colorManagement: true;"
       arjs="sourceType: webcam; facingMode: environment; debugUIEnabled: false;"
     >
-      <!-- Luzes para destacar o sombreamento 3D -->
-      <a-light type="ambient" color="#ffffff" intensity="0.6"></a-light>
-      <a-light type="directional" position="1 3 2" intensity="0.9"></a-light>
+      <!-- Iluminação ambiente forte + duas direcionais opostas -->
+      <a-light type="ambient" color="#ffffff" intensity="0.85"></a-light>
+      <a-light type="directional" position="2 4 3" intensity="0.7"></a-light>
+      <a-light type="directional" position="-2 -2 -3" intensity="0.4"></a-light>
 
-      <!-- Marcador Fiducial HIRO -->
       <a-marker preset="hiro" id="marcador-hiro">
-        <!-- Grupo pai que recebe Escala e Rotação -->
         <a-entity
           id="grupo-objeto"
           position="0 0.6 0"
@@ -111,16 +106,16 @@
             width="0.8"
             height="0.8"
             depth="0.8"
-            material="color: #3b82f6; metalness: 0.2; roughness: 0.4;"
+            material="color: #3b82f6; roughness: 0.7; metalness: 0;"
           ></a-box>
 
-          <!-- Objeto 2: Toroide (Rosquinha) -->
+          <!-- Objeto 2: Toroide -->
           <a-torus
             id="obj-torus"
             visible="false"
             radius="0.45"
             radius-tubular="0.16"
-            material="color: #10b981; metalness: 0.3; roughness: 0.3;"
+            material="color: #10b981; roughness: 0.7; metalness: 0;"
           ></a-torus>
 
           <!-- Objeto 3: Icosaedro -->
@@ -128,17 +123,17 @@
             id="obj-ico"
             visible="false"
             radius="0.55"
-            material="color: #f59e0b; metalness: 0.2; roughness: 0.4;"
+            material="color: #f59e0b; roughness: 0.7; metalness: 0;"
           ></a-icosahedron>
         </a-entity>
 
-        <!-- Base de referência no plano do marcador (eixos X e Z) -->
+        <!-- Base de referência no plano do marcador -->
         <a-plane
           position="0 0.01 0"
           rotation="-90 0 0"
           width="1.2"
           height="1.2"
-          material="color: #0f172a; opacity: 0.4;"
+          material="color: #0f172a; opacity: 0.35; roughness: 1; metalness: 0;"
         ></a-plane>
       </a-marker>
 
